@@ -1,0 +1,61 @@
+<form class="form-horizontal" role="form">
+	<!-- /.col-lg-4 -->
+	<div class="col-lg-4">
+    	<div class="input-group">
+            <input type="text" class="form-control" ng-model="searchTerm" placeholder="Search Music ...">
+            <span class="input-group-btn">
+            	<button type="button" class="btn btn-primary" ng-click="doSearch()"><i class="glyphicon glyphicon-search"></i> Search</button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+    	<label class="col-lg-1 control-label">Sort by</label>
+    	<div class="col-sm-1">
+    		<select class="form-control" ng-model="orderProp">
+			  <option value="trackName">Name</option>
+			  <option value="artistName">Artist</option>
+			  <option value="collectionName">Album</option>
+			  <option value="trackTimeMillis">Time</option>
+			  <option value="trackPrice">Price</option>
+			</select>
+    	</div>
+    	<label class="col-lg-1 control-label">Filter by</label>
+    	<div class="col-lg-2">
+      		<input type="text" class="form-control" id="filterBy" ng-model="filterBy">
+    	</div>
+  	</div>
+</form>
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+	            <th>Name</th>
+	            <th>Artist</th>
+	            <th>Album</th>
+	            <th>Time</th>
+	            <th>Popularity</th>
+	            <th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="itune in ituneResults.results | filter:filterBy | orderBy:orderProp">
+				<td>
+					<a href="{{itune.previewUrl}}" data-toggle="popover">
+						<img class="img-rounded" ng-src="{{itune.artworkUrl60}}"/> {{itune.trackName}}
+					</a>
+				</td>
+	            <td>{{itune.artistName}}</td>
+	            <td>{{itune.collectionName}}</td>
+	            <td>{{itune.trackTimeMillis | date:'mm:ss'}}</td>
+	            <td>
+	            	<div class="progress progress-striped active">
+  						<div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{popularity()}}%">
+					    <span class="sr-only">{{popularity()}}% Complete</span>
+					  </div>
+					</div>
+	             </td>
+	            <td>{{itune.trackPrice}}</td>
+		</tr>
+		</tbody>
+</table>
+</div>
